@@ -1,0 +1,60 @@
+<button nz-button nzType="primary" (click)="showModal()">Create new</button>
+  <nz-table
+    #dynamicTable
+    [nzScroll]="{ x: scrollX, y: scrollY }"
+    [nzData]="data"
+    [nzTableLayout]="settingValue.tableLayout"
+    [nzBordered]="settingValue.bordered"
+    [nzSimple]="settingValue.simple"
+    [nzLoading]="settingValue.loading"
+    [nzPaginationType]="settingValue.paginationType"
+    [nzPaginationPosition]="settingValue.position"
+    [nzShowSizeChanger]="settingValue.sizeChanger"
+    [nzFrontPagination]="settingValue.pagination"
+    [nzShowPagination]="settingValue.pagination"
+    [nzFooter]="settingValue.footer ? 'Here is Footer' : null"
+    [nzTitle]="settingValue.title ? 'Here is Title' : null"
+    [nzSize]="settingValue.size"
+    (nzCurrentPageDataChange)="currentPageDataChange($event)"
+  >
+    <thead>
+      <tr *ngIf="settingValue.header">
+        <th nzWidth="40px" *ngIf="settingValue.expandable" [nzLeft]="fixedColumn"></th>
+        <th
+          *ngIf="settingValue.checkbox"
+          nzWidth="60px"
+          [(nzChecked)]="allChecked"
+          [nzLeft]="fixedColumn"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="checkAll($event)"
+        ></th>
+        <th [nzLeft]="fixedColumn">City Name</th>
+        <th>City Code</th>
+        <th [nzRight]="fixedColumn">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of dynamicTable.data">
+        <tr>
+          <td [nzLeft]="fixedColumn" *ngIf="settingValue.expandable" [(nzExpand)]="data.expand"></td>
+          <td
+            [nzLeft]="fixedColumn"
+            *ngIf="settingValue.checkbox"
+            [(nzChecked)]="data.checked"
+            (nzCheckedChange)="refreshStatus()"
+          ></td>
+          <td [nzLeft]="fixedColumn">{{ data.city }}</td>
+          <td>{{ data.code }}</td>
+          <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+            <a href="#" (click)="onRemoveCity(data.city)">Delete</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a href="#">More action</a>
+          </td>
+        </tr>
+        <tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+          <span>{{ data.description }}</span>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+ <app-form-create-new [isVisible]="isVisible" (visibleChange)="onVisibleChange($event)"></app-form-create-new>

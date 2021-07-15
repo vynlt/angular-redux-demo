@@ -1,0 +1,26 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Create new" (nzOnCancel)="handleCancel()">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <ng-container *nzModalContent>
+    
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzFor="city">City name</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+          <input nz-input formControlName="city" type="input" id="city">
+        </nz-form-control>
+      </nz-form-item >
+      <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="code">City code</nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <input nz-input formControlName="code" type="input" id="code">
+          </nz-form-control>
+        </nz-form-item >
+    
+  </ng-container>
+  <div *nzModalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Create</button>
+  </div>
+</form>
+</nz-modal>
+
+
